@@ -109,8 +109,33 @@ func strings() {
 }
 
 func pointers() {
+	// Stack: Data structure which follows LIFO(Last In First Out), consider example of a stack of plates
+	// e.g let us have 5 plates, a, b, c, d and e
+	// If I want to place these on top of each other, this will be the order:
+	// plate e // this plate will come out at first(LIFO)
+	// plate d
+	// plate c
+	// plate b
+	// plate a
+
+	// Heap: Data structure which is based on a tree data structure, i.e each entry points to another entry
+	// Unordered
+	// Ordering can be enforced by using min-heap(stores the smallest item at the root node), max-heap(opposite of min-heap)
+
+	// Each program has two kinds of memory at runtime: stack, heap
+	// Stack is faster, but memory size is limited
+	// Heap is slower, but memory size is larger: Values on the heap can be accessed only through their memory address, if address is lost, value is lost even though it might exist on the heap
+
 	// Pointers are special types in Go
 	// Any variable of type pointer does not point to a value
+
+	// e.g var x int = 0 // here x points to the value 0
+	// var x *int // x points to a memory address, that memory location can only store an integer
+
+	// Pointers have two signs associated with them:
+	// *: Used to define the type of a variable as a pointer, or it is used to get the actual value from a pointer variable
+	// &: Used to get the memory address of a value stored stored in a variable
+
 	// Variable of pointer type points to a address of a memory location
 	var x *int // This means that x will contain address of a memory location that can only contain integer values
 
@@ -118,8 +143,12 @@ func pointers() {
 	y := 5
 	x = &y // & is used to get the memory location of a variable
 
+	// z := "Shashank"
+	// x = &z cannot do this: x is a pointer of type integer, which means the location it points, can only have integer values
+
 	fmt.Println("value of y: ", y) // Prints 5
 	fmt.Println("value of x: ", x) // Prints address where 5 is stored
 
 	fmt.Println("dereferenced value of x: ", *x) // dereferencing // This prints 5, as * is used to declare pointer types and to get value contained at a memory location
+
 }
