@@ -8,6 +8,26 @@
   - A High level programming language compared to binary and assembly
   - A Low level programming language compared to Python
   - A Systems level programming language
+- All programs have two states:
+  - Compile: Source code verified and translated to machine executable code
+  - Run: Run source code executable
+- All programs have access to two types of storage at runtime:
+  - Stack based:
+    - Data structure which follows LIFO(Last In First Out), consider example of a stack of plates e.g. let us have 5 plates, a, b, c, d and e
+  If I want to place these on top of each other, this will be the order:
+  plate e // this plate will come out at first(LIFO)
+  plate d
+  plate c
+  plate b
+  plate a
+  
+  - Heap based:
+    - Data structure which is based on a tree data structure i.e, each entry points to another entry
+    - Unordered
+    - Ordering can be enforced by using min-heap(stores the smallest item at the root node), max-heap(opposite of min-heap)
+  
+  - Stack is faster, but memory size is limited
+  - Heap is slower, but memory size is larger: [Values on the heap can be accessed only through their memory address](#pointers), if address is lost, value is lost even though it might exist on the heap
 
 ## Programming Languages
 
@@ -171,6 +191,9 @@ var str string = "Shashank"
 - Pointers are special types in Go
 - Any variable of type pointer does not point to a value
 - Variable of pointer type points to an address of a memory location
+- Pointers have two signs associated with them:
+  - *: Used to define type of variable as a pointer, or to get the actual value stored at the memory address stored in the pointer variable
+  - &: Used to get the memory address of a value stored in a variable
 
 ```go
 var x *int // This means that x will contain address of a memory location that can only contain integer values
@@ -182,6 +205,27 @@ fmt.Println("value of y: ", y) // Prints 5
 fmt.Println("value of x: ", x) // Prints address where 5 is stored
 
 fmt.Println("dereferenced value of x: ", *x) // dereferencing // This prints 5, as * is used to declare pointer types and to get value contained at a memory location
+```
+
+```go
+// If we take an example of a house, x is the name of the house: Shashank's House
+x := "Shashank" // Each variable has a lifecycle: Declaration, Definition, Initialization, in this statement only Declaration and Initialization are explicit, Definition is implicit based on value
+
+// s is the address of the house: Village: Narnia, Telangana - 500000
+// In computing terms, an address is represented as a hex value, e.g 0xc000014070, 0xc00004a020, etc
+var s *string // s will point to a memory location: s = some memory location, and this memory location can only contain strings
+s = &x        // Returns memory address of the value in x
+// When & is used, it is an instruction to return the actual address, e.g give me the address for Shashank's House which will return "Village: Narnia, Telangana - 500000"
+
+fmt.Println(s) // Prints gibberish memory address i.e, s = 0xc000014070 // this value points to "Shashank"
+
+fmt.Println(*s) // Prints value: in this case "Shashank"
+
+fmt.Println(&s) // Since s stores a memory address, the value of s = memory address, and this value is also stored somewhere
+// When we do &s, we get the memory address of the value of s which is a memory address
+&s = 0xc00004a020 // this value points to "0xc000014070"
+
+fmt.Println(*&s) // Since * is used to get the value stored at a memory address, *&s prints the value stored at &s(0xc00004a020)
 ```
 
 ### Vector data types: Arrays, Slices and Maps
