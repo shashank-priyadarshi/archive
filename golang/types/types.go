@@ -38,6 +38,10 @@ func types() {
 
 	// Pointer
 	pointers()
+
+	// Arrays
+	// Slices
+	// Maps
 }
 
 func integers() {
@@ -150,5 +154,51 @@ func pointers() {
 	fmt.Println("value of x: ", x) // Prints address where 5 is stored
 
 	fmt.Println("dereferenced value of x: ", *x) // dereferencing // This prints 5, as * is used to declare pointer types and to get value contained at a memory location
-
 }
+
+func arrays() {
+	// List with all the list items being of the same data type, either scalar or vector
+	// Arrays are of immutable sizes: size of an array cannot change at runtime, and must be known at compile time
+	// In Go, size of the array is also part of the data type
+	// Occupies contiguous memory location: in an array of 10 items, all items will be stored on the memory one after the other
+
+	var arr1 [10]string
+	// var arr2 [20]string
+
+	// arr1 != arr2
+	// arr1 = arr2 // Invalid code: size of the array is also part of the data type
+
+	// Arrays are 0-indexed
+	// In an array of type [10]string: [ "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" ]
+	// To access individual items: arr1[0], arr1[1], arr1[2], arr1[3]...
+	// Position of items in arrays starts from 0
+
+	arr1[0] = "Shashank" // Adds this string to 1st position, or 0th index in arr1
+	// arr1[0-1] = "Shashank" // Invalid Code: Indexing starts from 0 only, negative indices are invalid
+
+	// arr1[10] = "Priyadarshi" // Invalid code: Indexing starts from 0, so index of 10th item will be = 10 - 1 = 9
+	arr1[10-1] = "Priyadarshi"
+
+	// {
+	// 	var arr [10]string
+	// 	var arr [11]string
+	// }
+
+	// arr1[10+1] = "Priyadarshi" // Invalid Code: This array is of size 10 items, and arrays are of immutable sizes
+	// Index 10+1 means trying to access 11th items from a list of 10 items
+
+	arr1 = [10]string{"Shashank", "Priyadarshi", "Golang", "Rust", "JavaScript", "TypeScript", "C", "C++", "Python", "R"}
+
+	// Declare two arrays of type int and type string
+	// Fill integer array with strings
+	// Fill string array with integers
+
+	// Create another array
+	// This array should also contain integers
+	// Try adding negative values into this array
+	// All values in this array will be limited to 0-255
+}
+
+func slices() {}
+
+func maps() {}
