@@ -40,8 +40,13 @@ func types() {
 	pointers()
 
 	// Arrays
+	arrays()
+
 	// Slices
+	slices()
+
 	// Maps
+	maps()
 }
 
 func integers() {
@@ -239,4 +244,80 @@ func slices() {
 
 }
 
-func maps() {}
+func maps() {
+	// Lists: Allow access to data in constant time: because location of the data is known
+	// []int{0,1,2,3,4,5,6,7,8,9}: This is a list/array/slice of 10 items
+	// To access the item at 6th position(5th index), I only need to do list[5]
+	// The problem is: there can be multiple occurences of same item in a list
+	// []string{"Shashank Priyadarshi", "Shashank P", "P Shashank", "Shashank Priyadarshi"}
+	// []int{0,0,0,0,0,0}
+	// Exactly once occurence cannot be ensured just by using lists
+	// A map in Go solves this problem by storing unique items
+	// A map is a list of Key Value pairs
+	// map[int]string{1: "Shashank Priyadarshi", 2: "Shashank P", 3: "P Shashank", 4: "Shashank Priyadarshi"}
+
+	var x map[int]string
+	y := map[int]string{}
+	z := make(map[int]string)
+
+	fmt.Println(x, y, z)
+
+	// In the following list []int{0,1,2,3,4,5,6,7,8,9}: operation list[5] will always return the 6th item that is 5
+	// In the following map map[int]string{1: "Shashank Priyadarshi", 2: "Shashank P", 3: "P Shashank", 4: "Shashank Priyadarshi"},
+	// although m[1] will always return "Shashank Priyadarshi"
+	// On printing the whole map, the order of key value pairs will change
+	// In Go, maps are not ordered
+
+	list := []int{0, 1, 2, 3, 4, 5, 6, 7, 8, 9}
+	fmt.Println(list)
+	fmt.Println(list)
+
+	for k, v := range list {
+		fmt.Print(k, ":", v, " , ")
+	}
+
+	fmt.Println()
+
+	for k, v := range list {
+		fmt.Print(k, ":", v, " , ")
+	}
+
+	fmt.Println()
+	xMap := map[int]string{1: "Shashank Priyadarshi", 2: "Shashank P", 3: "P Shashank", 4: "Shashank Priyadarshi"}
+	fmt.Println(xMap)
+	fmt.Println(xMap)
+
+	for k, v := range xMap {
+		fmt.Print(k, ":", v, " , ")
+	}
+
+	fmt.Println()
+
+	for k, v := range xMap {
+		fmt.Print(k, ":", v, " , ")
+	}
+
+	fmt.Println()
+
+	for k, v := range xMap {
+		fmt.Print(k, ":", v, " , ")
+	}
+
+	// Maps in Go store key and values
+	// Keys are always unique in a map
+	// Values for two keys can be same in a Go map
+	// If two different values for same key are received for a map, the map will overwrite older value with newer value
+	xMap = map[int]string{1: "Shashank Priyadarshi", 2: "Shashank P", 3: "P Shashank", 4: "Shashank Priyadarshi"}
+	fmt.Println(xMap)
+
+	xMap[1] = "Naveen Patturi"
+	fmt.Println(xMap)
+
+	// TODO: 4
+	// Create a map of with key of type integer and value of type string
+	// Try to put these keys into the map with random values: "some_str0", "some_str1"
+
+	// TODO: 5
+	// Create a map with key of type interface{} and value of type string: definition of this map will be map[interface{}]string
+	// Then, try to perform the same operation on the map as above
+}
