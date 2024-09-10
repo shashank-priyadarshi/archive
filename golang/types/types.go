@@ -11,6 +11,7 @@ import "fmt"
 
 // Scalar data types: Numbers and Strings
 // Vector data types: Arrays, Slices and Maps
+// Custom data types
 // Composite data type: Struct
 // any/interface
 
@@ -47,6 +48,9 @@ func types() {
 
 	// Maps
 	maps()
+
+	// Custom data types
+	custom()
 }
 
 func integers() {
@@ -320,4 +324,151 @@ func maps() {
 	// TODO: 5
 	// Create a map with key of type interface{} and value of type string: definition of this map will be map[interface{}]string
 	// Then, try to perform the same operation on the map as above
+}
+
+func custom() {
+	type Fruits string
+	const (
+		// enums in Go
+		Mango  Fruits = "mango"
+		Banana Fruits = "banana"
+		Apple  Fruits = "apple"
+	)
+
+	type Weekday string
+	var (
+		Sunday  Weekday
+		Monday  Weekday
+		Tuesday Weekday
+	)
+
+	type DayOfMonth int
+	var (
+		First  DayOfMonth
+		Second DayOfMonth
+	)
+}
+
+func structs() {
+	// Object Oriented Programming: Classes and Objects
+	// Define classes, each class has some properties and methods
+	// Objects are instances of these classes
+{
+	type InteligenceLevel int8
+	const (
+		Poor InteligenceLevel = iota
+		Average
+		Good
+		Excellent
+	)
+
+	type Animal struct {
+		// These are properties of the class Animal
+		Name             string
+		Species          string
+		InteligenceLevel InteligenceLevel // Poor, Average, Good, Excellent starting from 0
+		Age              int
+		Weight           int
+	}
+
+	// Dog is a class which inherits from Animal
+	// However unline in other languages like Java, where there are keywords like implements, extends to enable Inheritance
+	// In Go there are no specific keywords to enable Inheritance
+	type Dog struct {
+		Animal Animal // Composition instead of Inheritance
+		Breed  string
+	}
+
+	type Cat struct {
+		Animal Animal
+		Breed  string
+	}
+
+	// Speak is a method of the class Animal
+	// This is a generic speak method applicable for all animals
+	// It accepts speech string as argument
+	// This argument represents how different animals speak
+	func (a Animal) Speak(animal, speech string) {
+		fmt.Println(fmt.Sprintf("%s is %s", animal, speech))
+	}
+
+	func (d Dog) Speak() { // Receiver function or methods as they are called in Go
+		d.Animal.Speak("dog", "barking")
+	}
+
+	func (c Cat) Speak() {
+		c.Animal.Speak("cat", "meowing")
+	}
+
+	dog := Dog {
+		Animal: Animal{
+			Name:             "Tommy",
+			Species:          "Dog",
+			InteligenceLevel: Good,
+			Age:              5,
+			Weight:           20,
+		},
+		Breed: "Labrador",
+	}
+
+	dog.Speak()
+
+	// TODO: Create an employee class
+	// Create an Address class
+	// Employee will have name, age, level(enum), addresses
+	// Create UpdateAddress method for an employee whenever a new address is passed
+	// Create an employee object and invoke the UpdateAddress method
+}
+}
+
+type Level int8
+
+const (
+	Fresher Level = iota
+	Associate
+	Senior
+	Lead
+	Manager
+	Architect
+	VP
+	CEO
+)
+
+type Employee struct {
+	// A struct can have any number of properties
+	// Type of these properties can be any scalar, vector, custom or composite data type
+	// Properties of a struct are called fields
+	// Fields of a struct can be accessed using the dot operator
+
+	// For this employee class, if we create an instance: object
+	// For that object, the age, level, salary and address are subject to change
+	// This is called behaviour of the employee class
+	// Behaviour of a class is defined by methods
+	Name    string
+	Age     string
+	Level   Level
+	Salary  string
+	Address Address
+}
+
+func (e Employee) NotifyBirthday() {
+	// Start a timer at every birthday for next year's birthday
+	// Whenever the timer stops, send a "Happy Birthday" notification to the employee
+	// Start the timer again for next year
+}
+
+func (e Employee) UpdateAddress(street, city, state, pincode string) {
+	e.Address = Address{
+		Street:  street,
+		City:    city,
+		State:   state,
+		Pincode: pincode,
+	}
+}
+
+type Address struct {
+	Street  string
+	City    string
+	State   string
+	Pincode string
 }
