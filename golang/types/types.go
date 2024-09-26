@@ -1,6 +1,11 @@
 package types
 
-import "fmt"
+import (
+	"fmt"
+	"net/http"
+	"net/url"
+	"time"
+)
 
 // Statically Typed Languages: Types are static after they have been defined for a variable
 // Dynamically Typed Languages: Types are dynamic, which means types of variables can change within the same scope based no value
@@ -11,7 +16,7 @@ import "fmt"
 
 // Scalar data types: Numbers and Strings
 // Vector data types: Arrays, Slices and Maps
-// Custom data types
+// Custom types
 // Composite data type: Struct
 // any/interface
 
@@ -36,6 +41,8 @@ func types() {
 
 	// String
 	strings()
+	// rune()
+	// bytes()
 
 	// Pointer
 	pointers()
@@ -109,6 +116,8 @@ func float() {
 }
 
 func strings() {
+	// Strings in Go are an immutable array of runes !!Important
+	// A rune is a collectin of bytes ranging from 1 to 4
 	// Strings in Golang are immutable
 	// "Shashank": After saving this value in memory, this value cannot be modified
 	// This value can be read, copied and a new value created out of it
@@ -118,6 +127,7 @@ func strings() {
 	// TODO: Since strings are array of runes, they can be ranged over and each character of the string can be read
 
 	var str string = "Shashank"
+	str[0] = "x"
 	fmt.Println(str)
 }
 
@@ -259,10 +269,21 @@ func maps() {
 	// A map in Go solves this problem by storing unique items
 	// A map is a list of Key Value pairs
 	// map[int]string{1: "Shashank Priyadarshi", 2: "Shashank P", 3: "P Shashank", 4: "Shashank Priyadarshi"}
+	// map[string]int{"Shashank Priyadarshi": 100000, "Shashank P": 5, "P Shashank": 500, "Shashank Priyadarshi": 5000}
 
 	var x map[int]string
 	y := map[int]string{}
 	z := make(map[int]string)
+
+	m = map[string]int{"Shashank Priyadarshi": 100000, "Shashank P": 5, "P Shashank": 500, "Shashank Priya": 5000}
+
+	for i := 0; i < 3; i++ {
+		fmt.Println(i)
+		for key, value := range m {
+			fmt.Print(key, " ", value, " ")
+		}
+		fmt.Println()
+	}
 
 	fmt.Println(x, y, z)
 
@@ -392,7 +413,7 @@ func structs() {
 		fmt.Println(fmt.Sprintf("%s is %s", animal, speech))
 	}
 
-	func (d Dog) Speak() { // Receiver function or methods as they are called in Go
+	func (d Dog) Speak() { // Receiver functions or methods as they are called in Go
 		d.Animal.Speak("dog", "barking")
 	}
 
@@ -472,3 +493,151 @@ type Address struct {
 	State   string
 	Pincode string
 }
+
+// Object Oriented Design
+
+// Objects are instances of classes: variables of a particular class type
+// Class can be any identity, its properties and behaviours
+
+// Inheritance
+// Encapsulation
+// Abstraction
+// Polymorphism
+
+/*
+Control structures
+Functions
+Parameters
+Return values
+Multiple return values
+*/
+
+func ControlStructures() {
+
+	x := "Shashank"
+
+	// If you have written some logic
+	// Based on some condition, certain logic should be executed, some logic should be skipped
+
+	if x == "Shashank" {
+		fmt.Println(x)
+	}
+
+	switch x {
+	case "Shashank":
+		fmt.Println(x)
+	default:
+		fmt.Println("unknown person")
+	}
+}
+
+// x, y, z, a, b, c are all function inputs
+// when func Functions is called, these values should be provided in the same order
+// ... is a special operator, allowing variadic parameterization
+// Variadic Parameters: When number/type of input to function is unknown, use variadic interface{}
+// Functions(1,2, "a", "b", true, false, 1, 2,3,4,5,6)
+func Functions(x, y int, z, a string, b, c bool, args ...interface{}) (bool, error) {
+	return true, nil
+}
+
+// Code is executed sequential
+// package main
+
+// func init(){}
+// func main(){
+// apiCall := httpclient.Do("https://example.com") // started
+// add := 2 + 3 // started
+// }
+
+// API Call: response might take 1 second
+// Concurrency vs Parallelism:
+// Concurrency: Multiple executions happening asynchronously but not simultaneously
+// Parallelism: Multiple executions happening asynchronously, mandatorily simultaneously
+
+// Operating System uses Kernel to manages threads and processes using SysCalls
+// Processes: Any running program is a process, network alloc, mem alloc, resource alloc, e.g. P1, P2 will have separate resources
+// Threads: Part of a process is a thread, shares the resources of parent process, e.g. T1, T2 will share resoures of parent process P1
+
+// Golang runtime manages the threads and processes
+// All the developer has to do is use the go keyword
+
+func Concurrency() {
+
+	// Channels are datatypes in Go
+	// make() function is used to create channels
+	// Buffered channel, unbuffered channel
+	// Unbuffered channels are synchronous channels: both sender and receiver should be present
+	// Buffered channels are channels with data storage capacity: sender needs to be present, receiver can receive at its convenience, asynchronous
+	done := make(chan bool)
+
+	for i := 0; i < 10; i++ {
+
+		// goroutine
+		// Abstraction over OS threads and processes, and is managed by the Go runtime
+		go func(i int) {
+			req := &http.Request{
+				Method: "GET",
+				URL: &url.URL{
+					Host: "https://example.com/" + string(i),
+				},
+				Host: "https://example.com",
+			}
+
+			client := http.Client{}
+
+			client.Do(req)
+
+			<-done
+		}(i)
+
+		// Run a for loop
+		// Print numbers from 1 to 10 in that for loop
+		// Print numbers from 1 to 10 in go routine
+		// Channels are used to send data to and from goroutines
+		for i := 0; i < 10; i++ {
+			fmt.Println(i) // sync
+		}
+
+		for i := 0; i < 10; i++ {
+			// async achieved using go routine, is concurrency, which means fmt.Println(i) is getting executed for different of i at the same time
+			go fmt.Println(i)
+		}
+
+		time.Sleep(5 * time.Second)
+	}
+
+	done <- true
+}
+
+// closure
+func Closure() {
+	f := dummy()
+	f()
+}
+
+func dummy() func() {
+	x := 5
+
+	return func() {
+		fmt.Println(x)
+	}
+	// variable x should not be accessible after dummy() has executed, but it does
+}
+
+// Go Workspaces
+// $GOPATH: bin/, pkg/, src/
+// Go workspaces allow multiple modules inside the same workspace
+// Primarily meant for development
+
+// Concurrency
+// Understanding the Go model of concurrency
+// Goroutines
+// Channels and coordination
+
+// Closures
+// Maps
+// Errors and error handling
+// Workspaces
+// Pointers to Structs
+// Arrays and Maps of Structs
+// Implicitness of Interfaces
