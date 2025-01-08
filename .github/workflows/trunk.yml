@@ -1,0 +1,25 @@
+name: Flaky tests using trunk.io
+
+on:
+  push:
+    - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@main
+      - name: Upload results to trunk.io
+          # Run this step even if the test step ahead fails
+          if: "!cancelled()"
+          uses: trunk-io/analytics-uploader@main
+          with:
+            # Path to your test results.
+            junit-paths: **/*.xml
+            # Provide your Trunk organization slug.
+            org-slug: shashank-priyadarshi
+            # Provide your Trunk API token as a GitHub secret.
+            token: ${{ secrets.TRUNK_API_TOKEN }}
+          continue-on-error: false
